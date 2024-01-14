@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_LoggedEvent" Id="{5900f22c-2a71-47ca-a158-1fb65c97b43c}">
+    <Declaration><![CDATA[TYPE ST_LoggedEvent :
+STRUCT
+	EventClass			: GUID;
+	sEventClassName		: STRING(Param_EventLoggerListener.cEventClassNameLength);
+	nEventId			: UDINT;
+	nUniqueId			: UDINT;
+	eSeverity			: TcEventSeverity;
+	sMessageText 		: STRING(Param_EventLoggerListener.cMessageTextLength);
+	sSourceName 		: STRING(Param_EventLoggerListener.cMessageTextLength);
+	nSourceId			: UDINT;
+	nTimestampRaised 	: ULINT;	
+	nTimestampConfirmed	: ULINT;
+	nTimestampCleared 	: ULINT;
+	ipArguments			: I_TcArguments;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

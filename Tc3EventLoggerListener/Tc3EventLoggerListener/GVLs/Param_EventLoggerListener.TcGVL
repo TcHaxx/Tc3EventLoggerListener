@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="Param_EventLoggerListener" Id="{2aac157d-e414-4f13-a6ad-dc7028dfe748}" ParameterList="True">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL CONSTANT
+	cEventClassNameLength : UDINT (80..255) := 80;
+	cMessageTextLength : UDINT(80..1024) := 255;
+	cSourceNameLength : UDINT (80..255) := 80;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

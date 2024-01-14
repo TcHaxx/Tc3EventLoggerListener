@@ -1,0 +1,1362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <EnumerationTextList Name="E_LanguageId" Id="{5faf77a6-95ae-44ba-b94c-f17f315208b2}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_LanguageId :
+(
+	ar_SA := 1025 , // Arabic - Saudi Arabia
+	bg_BG := 1026 , // Bulgarian
+	ca_ES := 1027 , // Catalan
+	zh_TW := 1028 , // Chinese - Taiwan
+	cs_CZ := 1029 , // Czech
+	da_DK := 1030 , // Danish
+	de_DE := 1031 , // German - Germany
+	el_GR := 1032 , // Greek
+	en_US := 1033 , // English - United States
+	es_ES := 1034 , // Spanish - Spain (Traditional Sort)
+	fi_FI := 1035 , // Finnish
+	fr_FR := 1036 , // French - France
+	he_IL := 1037 , // Hebrew
+	hu_HU := 1038 , // Hungarian
+	is_IS := 1039 , // Icelandic
+	it_IT := 1040 , // Italian - Italy
+	ja_JP := 1041 , // Japanese
+	ko_KR := 1042 , // Korean
+	nl_NL := 1043 , // Dutch - Netherlands
+	nb_NO := 1044 , // Norwegian (Bokmål)
+	pl_PL := 1045 , // Polish
+	pt_BR := 1046 , // Portuguese - Brazil
+	rm_CH := 1047 , // Rhaeto-Romanic
+	ro_RO := 1048 , // Romanian
+	ru_RU := 1049 , // Russian
+	hr_HR := 1050 , // Croatian
+	sk_SK := 1051 , // Slovak
+	sq_AL := 1052 , // Albanian - Albania
+	sv_SE := 1053 , // Swedish
+	th_TH := 1054 , // Thai
+	tr_TR := 1055 , // Turkish
+	ur_PK := 1056 , // Urdu - Pakistan
+	id_ID := 1057 , // Indonesian
+	uk_UA := 1058 , // Ukrainian
+	be_BY := 1059 , // Belarusian
+	sl_SI := 1060 , // Slovenian
+	et_EE := 1061 , // Estonian
+	lv_LV := 1062 , // Latvian
+	lt_LT := 1063 , // Lithuanian
+	tg_Cyrl_TJ := 1064 , // Tajik
+	fa_IR := 1065 , // Persian
+	vi_VN := 1066 , // Vietnamese
+	hy_AM := 1067 , // Armenian - Armenia
+	az_Latn_AZ := 1068 , // Azerbaijani (Latin)
+	eu_ES := 1069 , // Basque
+	wen_DE := 1070 , // Sorbian
+	mk_MK := 1071 , // North Macedonian
+	st_ZA := 1072 , // Sutu
+	ts_ZA := 1073 , // Tsonga
+	tn_ZA := 1074 , // Tswana
+	ven_ZA := 1075 , // Venda
+	xh_ZA := 1076 , // Xhosa
+	zu_ZA := 1077 , // Zulu
+	af_ZA := 1078 , // Afrikaans - South Africa
+	ka_GE := 1079 , // Georgian
+	fo_FO := 1080 , // Faroese
+	hi_IN := 1081 , // Hindi
+	mt_MT := 1082 , // Maltese
+	se_NO := 1083 , // Sami
+	gd_GB := 1084 , // Scottish Gaelic
+	yi := 1085 , // Yiddish
+	ms_MY := 1086 , // Malay - Malaysia
+	kk_KZ := 1087 , // Kazakh
+	ky_KG := 1088 , // Kyrgyz (Cyrillic)
+	sw_KE := 1089 , // Swahili
+	tk_TM := 1090 , // Turkmen
+	uz_Latn_UZ := 1091 , // Uzbek (Latin)
+	tt_RU := 1092 , // Tatar
+	bn_IN := 1093 , // Bengali (India)
+	pa_IN := 1094 , // Punjabi
+	gu_IN := 1095 , // Gujarati
+	or_IN := 1096 , // Odia
+	ta_IN := 1097 , // Tamil
+	te_IN := 1098 , // Telugu
+	kn_IN := 1099 , // Kannada
+	ml_IN := 1100 , // Malayalam
+	as_IN := 1101 , // Assamese
+	mr_IN := 1102 , // Marathi
+	sa_IN := 1103 , // Sanskrit
+	mn_MN := 1104 , // Mongolian (Cyrillic)
+	bo_CN := 1105 , // Tibetan - People's Republic of China
+	cy_GB := 1106 , // Welsh
+	km_KH := 1107 , // Khmer
+	lo_LA := 1108 , // Lao
+	my_MM := 1109 , // Burmese
+	gl_ES := 1110 , // Galician
+	kok_IN := 1111 , // Konkani
+	mni := 1112 , // Manipuri
+	sd_IN := 1113 , // Sindhi - India
+	syr_SY := 1114 , // Syriac
+	si_LK := 1115 , // Sinhalese - Sri Lanka
+	chr_US := 1116 , // Cherokee - United States
+	iu_Cans_CA := 1117 , // Inuktitut
+	am_ET := 1118 , // Amharic - Ethiopia
+	tmz := 1119 , // Tamazight (Arabic)
+	ks_Arab_IN := 1120 , // Kashmiri (Arabic)
+	ne_NP := 1121 , // Nepali
+	fy_NL := 1122 , // Frisian - Netherlands
+	ps_AF := 1123 , // Pashto
+	fil_PH := 1124 , // Filipino
+	dv_MV := 1125 , // Divehi
+	bin_NG := 1126 , // Edo
+	fuv_NG := 1127 , // Fulfulde - Nigeria
+	ha_Latn_NG := 1128 , // Hausa - Nigeria
+	ibb_NG := 1129 , // Ibibio - Nigeria
+	yo_NG := 1130 , // Yoruba
+	quz_BO := 1131 , // Quecha - Bolivia
+	nso_ZA := 1132 , // Sepedi
+	ig_NG := 1136 , // Igbo - Nigeria
+	kr_NG := 1137 , // Kanuri - Nigeria
+	gaz_ET := 1138 , // Oromo
+	ti_ER := 1139 , // Tigrigna - Ethiopia
+	gn_PY := 1140 , // Guarani - Paraguay
+	haw_US := 1141 , // Hawaiian - United States
+	la := 1142 , // Latin
+	so_SO := 1143 , // Somali
+	ii_CN := 1144 , // Yi
+	pap_AN := 1145 , // Papiamentu
+	ug_Arab_CN := 1152 , // Uighur - China
+	mi_NZ := 1153 , // Maori - New Zealand
+	ar_IQ := 2049 , // Arabic - Iraq
+	zh_CN := 2052 , // Chinese - People's Republic of China
+	de_CH := 2055 , // German - Switzerland
+	en_GB := 2057 , // English - United Kingdom
+	es_MX := 2058 , // Spanish - Mexico
+	fr_BE := 2060 , // French - Belgium
+	it_CH := 2064 , // Italian - Switzerland
+	nl_BE := 2067 , // Dutch - Belgium
+	nn_NO := 2068 , // Norwegian (Nynorsk)
+	pt_PT := 2070 , // Portuguese - Portugal
+	ro_MD := 2072 , // Romanian - Moldova
+	ru_MD := 2073 , // Russian - Moldava
+	sr_Latn_CS := 2074 , // Serbian (Latin)
+	sv_FI := 2077 , // Swedish - Finland
+	ur_IN := 2080 , // Urdu - India
+	az_Cyrl_AZ := 2092 , // Azerbaijani (Cyrillic)
+	ga_IE := 2108 , // Irish
+	ms_BN := 2110 , // Malay - Brunei Darussalam
+	uz_Cyrl_UZ := 2115 , // Uzbek (Cyrillic)
+	bn_BD := 2117 , // Bangla
+	pa_PK := 2118 , // Punjabi (Pakistan)
+	mn_Mong_CN := 2128 , // Mongolian (Mongolian)
+	bo_BT := 2129 , // Tibetan - Bhutan
+	sd_PK := 2137 , // Sindhi - Pakistan
+	tzm_Latn_DZ := 2143 , // Tamazight (Latin)
+	ks_Deva_IN := 2144 , // Kashmiri (Devanagari)
+	ne_IN := 2145 , // Nepali - India
+	quz_EC := 2155 , // Quecha - Ecuador
+	ti_ET := 2163 , // Tigrigna - Eritrea
+	ar_EG := 3073 , // Arabic - Egypt
+	zh_HK := 3076 , // Chinese - Hong Kong SAR
+	de_AT := 3079 , // German - Austria
+	en_AU := 3081 , // English - Australia
+	es_ES2 := 3082 , // Spanish - Spain (Modern Sort)
+	fr_CA := 3084 , // French - Canada
+	sr_Cyrl_CS := 3098 , // Serbian (Cyrillic)
+	quz_PE := 3179 , // Quecha - Peru
+	ar_LY := 4097 , // Arabic - Libya
+	zh_SG := 4100 , // Chinese - Singapore
+	de_LU := 4103 , // German - Luxembourg
+	en_CA := 4105 , // English - Canada
+	es_GT := 4106 , // Spanish - Guatemala
+	fr_CH := 4108 , // French - Switzerland
+	hr_BA := 4122 , // Croatian (Bosnia/Herzegovina)
+	ar_DZ := 5121 , // Arabic - Algeria
+	zh_MO := 5124 , // Chinese - Macao SAR
+	de_LI := 5127 , // German - Liechtenstein
+	en_NZ := 5129 , // English - New Zealand
+	es_CR := 5130 , // Spanish - Costa Rica
+	fr_LU := 5132 , // French - Luxembourg
+	bs_Latn_BA := 5146 , // Bosnian (Bosnia/Herzegovina)
+	ar_MO := 6145 , // Arabic - Morocco
+	en_IE := 6153 , // English - Ireland
+	es_PA := 6154 , // Spanish - Panama
+	fr_MC := 6156 , // French - Monaco
+	ar_TN := 7169 , // Arabic - Tunisia
+	en_ZA := 7177 , // English - South Africa
+	es_DO := 7178 , // Spanish - Dominican Republic
+	ar_OM := 7180 , // French - West Indies,fr-Arabic - Oman
+	en_JM := 8201 , // English - Jamaica
+	es_VE := 8202 , // Spanish - Venezuela
+	fr_RE := 8204 , // French - Reunion
+	ar_YE := 9217 , // Arabic - Yemen
+	es_CO := 9225 , // English - Caribbean,en-Spanish - Colombia
+	fr_CG := 9228 , // French - Democratic Rep. of Congo
+	ar_SY := 10241 , // Arabic - Syria
+	en_BZ := 10249 , // English - Belize
+	es_PE := 10250 , // Spanish - Peru
+	fr_SN := 10252 , // French - Senegal
+	ar_JO := 11265 , // Arabic - Jordan
+	en_TT := 11273 , // English - Trinidad
+	es_AR := 11274 , // Spanish - Argentina
+	fr_CM := 11276 , // French - Cameroon
+	ar_LB := 12289 , // Arabic - Lebanon
+	en_ZW := 12297 , // English - Zimbabwe
+	es_EC := 12298 , // Spanish - Ecuador
+	fr_CI := 12300 , // French - Cote d'Ivoire
+	ar_KW := 13313 , // Arabic - Kuwait
+	en_PH := 13321 , // English - Philippines
+	es_CL := 13322 , // Spanish - Chile
+	fr_ML := 13324 , // French - Mali
+	ar_AE := 14337 , // Arabic - U.A.E.
+	en_ID := 14345 , // English - Indonesia
+	es_UY := 14346 , // Spanish - Uruguay
+	fr_MA := 14348 , // French - Morocco
+	ar_BH := 15361 , // Arabic - Bahrain
+	en_HK := 15369 , // English - Hong Kong SAR
+	es_PY := 15370 , // Spanish - Paraguay
+	fr_HT := 15372 , // French - Haiti
+	ar_QA := 16385 , // Arabic - Qatar
+	en_IN := 16393 , // English - India
+	es_BO := 16394 , // Spanish - Bolivia
+	en_MY := 17417 , // English - Malaysia
+	es_SV := 17418 , // Spanish - El Salvador
+	en_SG := 18441 , // English - Singapore
+	es_HN := 18442 , // Spanish - Honduras
+	es_NI := 19466 , // Spanish - Nicaragua
+	es_PR := 20490 , // Spanish - Puerto Rico
+	es_US := 21514 , // Spanish - United States
+	es_419 := 58378, // Spanish - Latin Americaa
+	fr_015 := 58380  // French - North Africa
+);
+END_TYPE
+]]></Declaration>
+    <XmlArchive>
+      <Data>
+        <o xml:space="preserve" t="TextListEnumerationTextListObject">
+          <l n="TextList" t="ArrayList" cet="TextListRow">
+            <o>
+              <v n="TextID">"ar_SA"</v>
+              <v n="TextDefault">"1025"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"bg_BG"</v>
+              <v n="TextDefault">"1026"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ca_ES"</v>
+              <v n="TextDefault">"1027"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"zh_TW"</v>
+              <v n="TextDefault">"1028"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"cs_CZ"</v>
+              <v n="TextDefault">"1029"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"da_DK"</v>
+              <v n="TextDefault">"1030"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"de_DE"</v>
+              <v n="TextDefault">"1031"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"el_GR"</v>
+              <v n="TextDefault">"1032"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_US"</v>
+              <v n="TextDefault">"1033"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_ES"</v>
+              <v n="TextDefault">"1034"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fi_FI"</v>
+              <v n="TextDefault">"1035"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_FR"</v>
+              <v n="TextDefault">"1036"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"he_IL"</v>
+              <v n="TextDefault">"1037"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"hu_HU"</v>
+              <v n="TextDefault">"1038"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"is_IS"</v>
+              <v n="TextDefault">"1039"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"it_IT"</v>
+              <v n="TextDefault">"1040"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ja_JP"</v>
+              <v n="TextDefault">"1041"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ko_KR"</v>
+              <v n="TextDefault">"1042"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"nl_NL"</v>
+              <v n="TextDefault">"1043"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"nb_NO"</v>
+              <v n="TextDefault">"1044"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"pl_PL"</v>
+              <v n="TextDefault">"1045"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"pt_BR"</v>
+              <v n="TextDefault">"1046"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"rm_CH"</v>
+              <v n="TextDefault">"1047"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ro_RO"</v>
+              <v n="TextDefault">"1048"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ru_RU"</v>
+              <v n="TextDefault">"1049"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"hr_HR"</v>
+              <v n="TextDefault">"1050"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sk_SK"</v>
+              <v n="TextDefault">"1051"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sq_AL"</v>
+              <v n="TextDefault">"1052"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sv_SE"</v>
+              <v n="TextDefault">"1053"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"th_TH"</v>
+              <v n="TextDefault">"1054"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"tr_TR"</v>
+              <v n="TextDefault">"1055"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ur_PK"</v>
+              <v n="TextDefault">"1056"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"id_ID"</v>
+              <v n="TextDefault">"1057"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"uk_UA"</v>
+              <v n="TextDefault">"1058"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"be_BY"</v>
+              <v n="TextDefault">"1059"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sl_SI"</v>
+              <v n="TextDefault">"1060"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"et_EE"</v>
+              <v n="TextDefault">"1061"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"lv_LV"</v>
+              <v n="TextDefault">"1062"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"lt_LT"</v>
+              <v n="TextDefault">"1063"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"tg_Cyrl_TJ"</v>
+              <v n="TextDefault">"1064"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fa_IR"</v>
+              <v n="TextDefault">"1065"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"vi_VN"</v>
+              <v n="TextDefault">"1066"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"hy_AM"</v>
+              <v n="TextDefault">"1067"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"az_Latn_AZ"</v>
+              <v n="TextDefault">"1068"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"eu_ES"</v>
+              <v n="TextDefault">"1069"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"wen_DE"</v>
+              <v n="TextDefault">"1070"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"mk_MK"</v>
+              <v n="TextDefault">"1071"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"st_ZA"</v>
+              <v n="TextDefault">"1072"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ts_ZA"</v>
+              <v n="TextDefault">"1073"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"tn_ZA"</v>
+              <v n="TextDefault">"1074"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ven_ZA"</v>
+              <v n="TextDefault">"1075"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"xh_ZA"</v>
+              <v n="TextDefault">"1076"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"zu_ZA"</v>
+              <v n="TextDefault">"1077"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"af_ZA"</v>
+              <v n="TextDefault">"1078"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ka_GE"</v>
+              <v n="TextDefault">"1079"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fo_FO"</v>
+              <v n="TextDefault">"1080"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"hi_IN"</v>
+              <v n="TextDefault">"1081"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"mt_MT"</v>
+              <v n="TextDefault">"1082"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"se_NO"</v>
+              <v n="TextDefault">"1083"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"gd_GB"</v>
+              <v n="TextDefault">"1084"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"yi"</v>
+              <v n="TextDefault">"1085"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ms_MY"</v>
+              <v n="TextDefault">"1086"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"kk_KZ"</v>
+              <v n="TextDefault">"1087"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ky_KG"</v>
+              <v n="TextDefault">"1088"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sw_KE"</v>
+              <v n="TextDefault">"1089"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"tk_TM"</v>
+              <v n="TextDefault">"1090"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"uz_Latn_UZ"</v>
+              <v n="TextDefault">"1091"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"tt_RU"</v>
+              <v n="TextDefault">"1092"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"bn_IN"</v>
+              <v n="TextDefault">"1093"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"pa_IN"</v>
+              <v n="TextDefault">"1094"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"gu_IN"</v>
+              <v n="TextDefault">"1095"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"or_IN"</v>
+              <v n="TextDefault">"1096"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ta_IN"</v>
+              <v n="TextDefault">"1097"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"te_IN"</v>
+              <v n="TextDefault">"1098"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"kn_IN"</v>
+              <v n="TextDefault">"1099"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ml_IN"</v>
+              <v n="TextDefault">"1100"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"as_IN"</v>
+              <v n="TextDefault">"1101"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"mr_IN"</v>
+              <v n="TextDefault">"1102"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sa_IN"</v>
+              <v n="TextDefault">"1103"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"mn_MN"</v>
+              <v n="TextDefault">"1104"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"bo_CN"</v>
+              <v n="TextDefault">"1105"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"cy_GB"</v>
+              <v n="TextDefault">"1106"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"km_KH"</v>
+              <v n="TextDefault">"1107"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"lo_LA"</v>
+              <v n="TextDefault">"1108"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"my_MM"</v>
+              <v n="TextDefault">"1109"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"gl_ES"</v>
+              <v n="TextDefault">"1110"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"kok_IN"</v>
+              <v n="TextDefault">"1111"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"mni"</v>
+              <v n="TextDefault">"1112"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sd_IN"</v>
+              <v n="TextDefault">"1113"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"syr_SY"</v>
+              <v n="TextDefault">"1114"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"si_LK"</v>
+              <v n="TextDefault">"1115"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"chr_US"</v>
+              <v n="TextDefault">"1116"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"iu_Cans_CA"</v>
+              <v n="TextDefault">"1117"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"am_ET"</v>
+              <v n="TextDefault">"1118"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"tmz"</v>
+              <v n="TextDefault">"1119"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ks_Arab_IN"</v>
+              <v n="TextDefault">"1120"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ne_NP"</v>
+              <v n="TextDefault">"1121"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fy_NL"</v>
+              <v n="TextDefault">"1122"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ps_AF"</v>
+              <v n="TextDefault">"1123"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fil_PH"</v>
+              <v n="TextDefault">"1124"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"dv_MV"</v>
+              <v n="TextDefault">"1125"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"bin_NG"</v>
+              <v n="TextDefault">"1126"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fuv_NG"</v>
+              <v n="TextDefault">"1127"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ha_Latn_NG"</v>
+              <v n="TextDefault">"1128"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ibb_NG"</v>
+              <v n="TextDefault">"1129"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"yo_NG"</v>
+              <v n="TextDefault">"1130"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"quz_BO"</v>
+              <v n="TextDefault">"1131"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"nso_ZA"</v>
+              <v n="TextDefault">"1132"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ig_NG"</v>
+              <v n="TextDefault">"1136"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"kr_NG"</v>
+              <v n="TextDefault">"1137"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"gaz_ET"</v>
+              <v n="TextDefault">"1138"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ti_ER"</v>
+              <v n="TextDefault">"1139"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"gn_PY"</v>
+              <v n="TextDefault">"1140"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"haw_US"</v>
+              <v n="TextDefault">"1141"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"la"</v>
+              <v n="TextDefault">"1142"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"so_SO"</v>
+              <v n="TextDefault">"1143"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ii_CN"</v>
+              <v n="TextDefault">"1144"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"pap_AN"</v>
+              <v n="TextDefault">"1145"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ug_Arab_CN"</v>
+              <v n="TextDefault">"1152"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"mi_NZ"</v>
+              <v n="TextDefault">"1153"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_IQ"</v>
+              <v n="TextDefault">"2049"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"zh_CN"</v>
+              <v n="TextDefault">"2052"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"de_CH"</v>
+              <v n="TextDefault">"2055"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_GB"</v>
+              <v n="TextDefault">"2057"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_MX"</v>
+              <v n="TextDefault">"2058"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_BE"</v>
+              <v n="TextDefault">"2060"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"it_CH"</v>
+              <v n="TextDefault">"2064"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"nl_BE"</v>
+              <v n="TextDefault">"2067"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"nn_NO"</v>
+              <v n="TextDefault">"2068"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"pt_PT"</v>
+              <v n="TextDefault">"2070"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ro_MD"</v>
+              <v n="TextDefault">"2072"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ru_MD"</v>
+              <v n="TextDefault">"2073"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sr_Latn_CS"</v>
+              <v n="TextDefault">"2074"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sv_FI"</v>
+              <v n="TextDefault">"2077"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ur_IN"</v>
+              <v n="TextDefault">"2080"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"az_Cyrl_AZ"</v>
+              <v n="TextDefault">"2092"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ga_IE"</v>
+              <v n="TextDefault">"2108"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ms_BN"</v>
+              <v n="TextDefault">"2110"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"uz_Cyrl_UZ"</v>
+              <v n="TextDefault">"2115"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"bn_BD"</v>
+              <v n="TextDefault">"2117"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"pa_PK"</v>
+              <v n="TextDefault">"2118"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"mn_Mong_CN"</v>
+              <v n="TextDefault">"2128"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"bo_BT"</v>
+              <v n="TextDefault">"2129"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sd_PK"</v>
+              <v n="TextDefault">"2137"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"tzm_Latn_DZ"</v>
+              <v n="TextDefault">"2143"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ks_Deva_IN"</v>
+              <v n="TextDefault">"2144"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ne_IN"</v>
+              <v n="TextDefault">"2145"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"quz_EC"</v>
+              <v n="TextDefault">"2155"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ti_ET"</v>
+              <v n="TextDefault">"2163"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_EG"</v>
+              <v n="TextDefault">"3073"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"zh_HK"</v>
+              <v n="TextDefault">"3076"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"de_AT"</v>
+              <v n="TextDefault">"3079"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_AU"</v>
+              <v n="TextDefault">"3081"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_ES2"</v>
+              <v n="TextDefault">"3082"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_CA"</v>
+              <v n="TextDefault">"3084"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"sr_Cyrl_CS"</v>
+              <v n="TextDefault">"3098"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"quz_PE"</v>
+              <v n="TextDefault">"3179"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_LY"</v>
+              <v n="TextDefault">"4097"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"zh_SG"</v>
+              <v n="TextDefault">"4100"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"de_LU"</v>
+              <v n="TextDefault">"4103"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_CA"</v>
+              <v n="TextDefault">"4105"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_GT"</v>
+              <v n="TextDefault">"4106"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_CH"</v>
+              <v n="TextDefault">"4108"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"hr_BA"</v>
+              <v n="TextDefault">"4122"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_DZ"</v>
+              <v n="TextDefault">"5121"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"zh_MO"</v>
+              <v n="TextDefault">"5124"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"de_LI"</v>
+              <v n="TextDefault">"5127"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_NZ"</v>
+              <v n="TextDefault">"5129"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_CR"</v>
+              <v n="TextDefault">"5130"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_LU"</v>
+              <v n="TextDefault">"5132"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"bs_Latn_BA"</v>
+              <v n="TextDefault">"5146"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_MO"</v>
+              <v n="TextDefault">"6145"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_IE"</v>
+              <v n="TextDefault">"6153"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_PA"</v>
+              <v n="TextDefault">"6154"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_MC"</v>
+              <v n="TextDefault">"6156"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_TN"</v>
+              <v n="TextDefault">"7169"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_ZA"</v>
+              <v n="TextDefault">"7177"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_DO"</v>
+              <v n="TextDefault">"7178"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_OM"</v>
+              <v n="TextDefault">"7180"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_JM"</v>
+              <v n="TextDefault">"8201"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_VE"</v>
+              <v n="TextDefault">"8202"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_RE"</v>
+              <v n="TextDefault">"8204"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_YE"</v>
+              <v n="TextDefault">"9217"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_CO"</v>
+              <v n="TextDefault">"9225"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_CG"</v>
+              <v n="TextDefault">"9228"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_SY"</v>
+              <v n="TextDefault">"10241"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_BZ"</v>
+              <v n="TextDefault">"10249"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_PE"</v>
+              <v n="TextDefault">"10250"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_SN"</v>
+              <v n="TextDefault">"10252"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_JO"</v>
+              <v n="TextDefault">"11265"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_TT"</v>
+              <v n="TextDefault">"11273"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_AR"</v>
+              <v n="TextDefault">"11274"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_CM"</v>
+              <v n="TextDefault">"11276"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_LB"</v>
+              <v n="TextDefault">"12289"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_ZW"</v>
+              <v n="TextDefault">"12297"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_EC"</v>
+              <v n="TextDefault">"12298"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_CI"</v>
+              <v n="TextDefault">"12300"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_KW"</v>
+              <v n="TextDefault">"13313"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_PH"</v>
+              <v n="TextDefault">"13321"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_CL"</v>
+              <v n="TextDefault">"13322"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_ML"</v>
+              <v n="TextDefault">"13324"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_AE"</v>
+              <v n="TextDefault">"14337"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_ID"</v>
+              <v n="TextDefault">"14345"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_UY"</v>
+              <v n="TextDefault">"14346"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_MA"</v>
+              <v n="TextDefault">"14348"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_BH"</v>
+              <v n="TextDefault">"15361"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_HK"</v>
+              <v n="TextDefault">"15369"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_PY"</v>
+              <v n="TextDefault">"15370"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_HT"</v>
+              <v n="TextDefault">"15372"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ar_QA"</v>
+              <v n="TextDefault">"16385"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_IN"</v>
+              <v n="TextDefault">"16393"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_BO"</v>
+              <v n="TextDefault">"16394"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_MY"</v>
+              <v n="TextDefault">"17417"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_SV"</v>
+              <v n="TextDefault">"17418"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"en_SG"</v>
+              <v n="TextDefault">"18441"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_HN"</v>
+              <v n="TextDefault">"18442"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_NI"</v>
+              <v n="TextDefault">"19466"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_PR"</v>
+              <v n="TextDefault">"20490"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_US"</v>
+              <v n="TextDefault">"21514"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"es_419"</v>
+              <v n="TextDefault">"58378"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"fr_015"</v>
+              <v n="TextDefault">"58380"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">""</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+          </l>
+          <l n="Languages" t="ArrayList" />
+          <v n="GuidInit">{5a08dd34-2439-4855-bfd8-f1e0d6df86da}</v>
+          <v n="GuidReInit">{7d637471-51cd-409a-9daf-2b25da4cc5d4}</v>
+          <v n="GuidExitX">{b84fba8d-f550-4983-b8e7-0d8abfd3ad2a}</v>
+        </o>
+      </Data>
+      <TypeList>
+        <Type n="ArrayList">System.Collections.ArrayList</Type>
+        <Type n="Guid">System.Guid</Type>
+        <Type n="String">System.String</Type>
+        <Type n="TextListEnumerationTextListObject">{4b60233c-f940-4beb-b331-82133b520151}</Type>
+        <Type n="TextListRow">{53da1be7-ad25-47c3-b0e8-e26286dad2e0}</Type>
+      </TypeList>
+    </XmlArchive>
+  </EnumerationTextList>
+</TcPlcObject>

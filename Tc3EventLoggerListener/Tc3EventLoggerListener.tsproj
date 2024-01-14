@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53" TcProjectVariant="LIB">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{FFE66227-CA24-41B6-93F7-859EA4A3FC0A}" PersistentType="true">AnotherEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
+			<EventId>
+				<Name Id="1">NonSubscribedEvent</Name>
+				<DisplayName TxtId=""><![CDATA[A Event which will not be subscribed to.]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+		</DataType>
+		<DataType>
+			<Name GUID="{B7A625D3-44A2-4DEB-8226-8837080C12C7}" PersistentType="true">PublisherEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[PublisherEventClass]]></DisplayName>
+			<EventId>
+				<Name Id="1">Message</Name>
+				<DisplayName TxtId=""><![CDATA[Message]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">Alarm</Name>
+				<DisplayName TxtId=""><![CDATA[Alarm]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{3E9B2A7D-E1CC-4D59-92B2-07AF07074230}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{FF3860C6-5EC3-4BF5-BC0E-79D583ACECD3}" PersistentType="true">PublisherEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[PublisherEventClass]]></DisplayName>
+			<Comment TxtId=""><![CDATA[dsfgdgh]]></Comment>
+			<EventId>
+				<Name Id="#x1">Message</Name>
+				<DisplayName TxtId=""><![CDATA[Message]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">Alarm</Name>
+				<DisplayName TxtId=""><![CDATA[Alarm]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{3E9B2A7D-E1CC-4D59-92B2-07AF07074230}"/>
+				<Hide GUID="{B7A625D3-44A2-4DEB-8226-8837080C12C7}"/>
+				<Hide GUID="{2D8A9C96-9ED4-4028-8823-2B41D30BE677}"/>
+			</Hides>
+		</DataType>
+	</DataTypes>
+	<Project ProjectGUID="{BB23B57A-60AD-48A2-BF61-82B0E524E36B}" TargetNetId="41.143.68.207.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
+		<System>
+			<Tasks>
+				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
+					<Name>PlcTask</Name>
+					<ProjectVariant PvUseDisable="true" PvUseParameter="true">
+						<Variant>
+							<Name>LIB</Name>
+							<Name>UNIT_TEST</Name>
+							<Disable>0</Disable>
+							<Parameters Priority="20" CycleTime="100000"/>
+						</Variant>
+					</ProjectVariant>
+				</Task>
+				<Task Id="4" Disabled="true" Priority="1" CycleTime="100000" AmsPort="351" AdtTasks="true">
+					<Name>PlcTaskUnitTest</Name>
+					<ProjectVariant PvUseDisable="true" PvUseParameter="true">
+						<Variant>
+							<Name>LIB</Name>
+							<Name>UNIT_TEST</Name>
+							<Disable>1</Disable>
+							<Parameters Priority="1" CycleTime="100000"/>
+						</Variant>
+					</ProjectVariant>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{F3E3AE31-6FE9-4967-8888-687788A69ABF}" Name="Tc3EventLoggerListener" PrjFilePath="Tc3EventLoggerListener\Tc3EventLoggerListener.plcproj" TmcFilePath="Tc3EventLoggerListener\Tc3EventLoggerListener.tmc" EnableImplicitDefines="true" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" ClearInvalidPersist="true" SymbolicMapping="true">
+				<ProjectVariant PvUseDisable="true" PvUseDefine="true">
+					<Variant>
+						<Name>LIB</Name>
+						<Disable>0</Disable>
+						<Defines></Defines>
+					</Variant>
+					<Variant>
+						<Name>UNIT_TEST</Name>
+						<Disable>0</Disable>
+						<Defines/>
+					</Variant>
+				</ProjectVariant>
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3EventLoggerListener\Tc3EventLoggerListener.tmc" TmcHash="{4E8CF14D-ECA6-ABFD-242E-4F5B2B05241D}">
+					<Name>Tc3EventLoggerListener Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+		<Variants SpecificLocalBootFolder="true">
+			<Variant Save="true">
+				<Name>LIB</Name>
+			</Variant>
+			<Variant>
+				<Name>UNIT_TEST</Name>
+			</Variant>
+		</Variants>
+	</Project>
+</TcSmProject>
