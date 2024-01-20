@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_LoggedEventsSortDescending_Tests" Id="{67a919fe-f40d-4174-a67c-31b6fd51af80}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'reflection'}
+FUNCTION_BLOCK FINAL FB_LoggedEventsSortDescending_Tests EXTENDS TcUnit.FB_TestSuite
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	{attribute 'instance-path'} 
+    {attribute 'noinit'} 
+	sTestName			: T_MaxString;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+TEST(sTestName);
+
+ShouldDoNothingWhenEmpty();
+ShouldDoNothingIfOnlyOneEvent();
+ShouldSortTwoEventsInDescendingOrderSuccessfully();
+ShouldSortThreeEventsInDescendingOrderSuccessfully();
+ShouldSortFourEventsInDescendingOrderSuccessfully();
+ShouldSortFiveEventsInDescendingOrderSuccessfully();
+ShouldSortXEventsInDescendingOrderSuccessfully();
+TEST_FINISHED_NAMED(sTestName);]]></ST>
+    </Implementation>
+    <Method Name="ShouldDoNothingIfOnlyOneEvent" Id="{7f496082-8571-4569-b36c-60a941271191}">
+      <Declaration><![CDATA[METHOD PRIVATE ShouldDoNothingIfOnlyOneEvent
+VAR_INPUT
+END_VAR
+VAR_INST
+	fbSUT	: FB_LoggedEventsSortDescending;
+	aToSort : T_LoggedEvents;
+	hr		: HRESULT;	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Should do nothing if only one event received');
+// Arrange
+aToSort[0].nUniqueId 	:= 1;
+aToSort[0].sMessageText := 'First received message is in slot 0';
+
+// Act
+hr := fbSUT.Sort(aLoggedEvents:= aToSort);
+
+// Assert
+AssertEquals_DINT(Expected:= S_FALSE,
+					Actual:= hr,
+					Message:= 'Expected HRESULT=S_FALSE');
+			
+AssertEquals_UDINT(Expected:= 1,
+					Actual:= aToSort[0].nUniqueId,
+					Message:= 'Expected nUniqueId = 1');
+AssertEquals_STRING(Expected:= 'First received message is in slot 0',
+					Actual:= aToSort[0].sMessageText,
+					Message:= 'Expected first received message');
+AssertEquals_UDINT(Expected:= 0,
+					Actual:= aToSort[1].nUniqueId,
+					Message:= 'Expected nUniqueId = 0');
+AssertEquals_STRING(Expected:= '',
+					Actual:= aToSort[1].sMessageText,
+					Message:= 'Expected empty string');						
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ShouldDoNothingWhenEmpty" Id="{5e025e83-b2c2-4b8b-811f-5bd838055a94}">
+      <Declaration><![CDATA[METHOD PRIVATE ShouldDoNothingWhenEmpty
+VAR_INPUT
+END_VAR
+VAR_INST
+	fbSUT	: FB_LoggedEventsSortDescending;
+	aToSort : T_LoggedEvents;
+	hr		: HRESULT;	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Should do nothing if no event');
+// Arrange
+
+// Act
+hr := fbSUT.Sort(aLoggedEvents:= aToSort);
+
+// Assert
+AssertEquals_DINT(Expected:= S_FALSE,
+					Actual:= hr,
+					Message:= 'Expected HRESULT=S_FALSE');			
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ShouldSortFiveEventsInDescendingOrderSuccessfully" Id="{64cd06cd-f847-49d3-901c-427ae9ec07ae}">
+      <Declaration><![CDATA[METHOD PRIVATE ShouldSortFiveEventsInDescendingOrderSuccessfully
+VAR_INPUT
+END_VAR
+VAR_INST
+	fbSUT	: FB_LoggedEventsSortDescending;
+	aToSort : T_LoggedEvents;
+	hr		: HRESULT;	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Should sort 5 Items in descending order (newest first)');
+// Arrange
+aToSort[0].nUniqueId 	:= 1;
+aToSort[0].sMessageText := '1st received message was in slot 0';
+aToSort[1].nUniqueId 	:= 2;
+aToSort[1].sMessageText := '2nd received message was in slot 1';
+aToSort[2].nUniqueId 	:= 3;
+aToSort[2].sMessageText := '3rd received message was in slot 2';
+aToSort[3].nUniqueId 	:= 4;
+aToSort[3].sMessageText := '4th received message was in slot 3';
+aToSort[4].nUniqueId 	:= 5;
+aToSort[4].sMessageText := '5th received message was in slot 4';
+// Act
+hr := fbSUT.Sort(aLoggedEvents:= aToSort);
+
+// Assert
+AssertEquals_DINT(Expected:= S_OK,
+					Actual:= hr,
+					Message:= 'Expected HRESULT=S_OK');
+AssertEquals_UDINT(Expected:= 5,
+					Actual:= aToSort[0].nUniqueId,
+					Message:= 'Expected nUniqueId = 5');
+AssertEquals_STRING(Expected:= '5th received message was in slot 4',
+					Actual:= aToSort[0].sMessageText,
+					Message:= 'Expected 5th received message');						
+AssertEquals_UDINT(Expected:= 4,
+					Actual:= aToSort[1].nUniqueId,
+					Message:= 'Expected nUniqueId = 4');
+AssertEquals_STRING(Expected:= '4th received message was in slot 3',
+					Actual:= aToSort[1].sMessageText,
+					Message:= 'Expected 4th received message');							
+AssertEquals_UDINT(Expected:= 3,
+					Actual:= aToSort[2].nUniqueId,
+					Message:= 'Expected nUniqueId = 3');
+AssertEquals_STRING(Expected:= '3rd received message was in slot 2',
+					Actual:= aToSort[2].sMessageText,
+					Message:= 'Expected 3rd received message');		
+AssertEquals_UDINT(Expected:= 2,
+					Actual:= aToSort[3].nUniqueId,
+					Message:= 'Expected nUniqueId = 2');
+AssertEquals_STRING(Expected:= '2nd received message was in slot 1',
+					Actual:= aToSort[3].sMessageText,
+					Message:= 'Expected 2nd received message');		
+AssertEquals_UDINT(Expected:= 1,
+					Actual:= aToSort[4].nUniqueId,
+					Message:= 'Expected nUniqueId = 1');
+AssertEquals_STRING(Expected:= '1st received message was in slot 0',
+					Actual:= aToSort[4].sMessageText,
+					Message:= 'Expected 1st received message');		
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ShouldSortFourEventsInDescendingOrderSuccessfully" Id="{ed068cff-5e5e-499b-aa60-e17a7229a56c}">
+      <Declaration><![CDATA[METHOD PRIVATE ShouldSortFourEventsInDescendingOrderSuccessfully
+VAR_INPUT
+END_VAR
+VAR_INST
+	fbSUT	: FB_LoggedEventsSortDescending;
+	aToSort : T_LoggedEvents;
+	hr		: HRESULT;	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Should sort 4 Items in descending order (newest first)');
+// Arrange
+aToSort[0].nUniqueId 	:= 1;
+aToSort[0].sMessageText := '1st received message was in slot 0';
+aToSort[1].nUniqueId 	:= 2;
+aToSort[1].sMessageText := '2nd received message was in slot 1';
+aToSort[2].nUniqueId 	:= 3;
+aToSort[2].sMessageText := '3rd received message was in slot 2';
+aToSort[3].nUniqueId 	:= 4;
+aToSort[3].sMessageText := '4th received message was in slot 3';
+// Act
+hr := fbSUT.Sort(aLoggedEvents:= aToSort);
+
+// Assert
+AssertEquals_DINT(Expected:= S_OK,
+					Actual:= hr,
+					Message:= 'Expected HRESULT=S_OK');
+AssertEquals_UDINT(Expected:= 4,
+					Actual:= aToSort[0].nUniqueId,
+					Message:= 'Expected nUniqueId = 4');
+AssertEquals_STRING(Expected:= '4th received message was in slot 3',
+					Actual:= aToSort[0].sMessageText,
+					Message:= 'Expected 4th received message');							
+AssertEquals_UDINT(Expected:= 3,
+					Actual:= aToSort[1].nUniqueId,
+					Message:= 'Expected nUniqueId = 3');
+AssertEquals_STRING(Expected:= '3rd received message was in slot 2',
+					Actual:= aToSort[1].sMessageText,
+					Message:= 'Expected 3rd received message');		
+AssertEquals_UDINT(Expected:= 2,
+					Actual:= aToSort[2].nUniqueId,
+					Message:= 'Expected nUniqueId = 2');
+AssertEquals_STRING(Expected:= '2nd received message was in slot 1',
+					Actual:= aToSort[2].sMessageText,
+					Message:= 'Expected 2nd received message');		
+AssertEquals_UDINT(Expected:= 1,
+					Actual:= aToSort[3].nUniqueId,
+					Message:= 'Expected nUniqueId = 1');
+AssertEquals_STRING(Expected:= '1st received message was in slot 0',
+					Actual:= aToSort[3].sMessageText,
+					Message:= 'Expected 1st received message');		
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ShouldSortThreeEventsInDescendingOrderSuccessfully" Id="{e7351e72-d49e-4838-8e66-0ee633361461}">
+      <Declaration><![CDATA[METHOD PRIVATE ShouldSortThreeEventsInDescendingOrderSuccessfully
+VAR_INPUT
+END_VAR
+VAR_INST
+	fbSUT	: FB_LoggedEventsSortDescending;
+	aToSort : T_LoggedEvents;
+	hr		: HRESULT;	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Should sort 3 Items in descending order (newest first)');
+// Arrange
+aToSort[0].nUniqueId 	:= 1;
+aToSort[0].sMessageText := 'First received message was in slot 0';
+aToSort[1].nUniqueId 	:= 2;
+aToSort[1].sMessageText := 'Second received message was in slot 1';
+aToSort[2].nUniqueId 	:= 3;
+aToSort[2].sMessageText := 'Third received message was in slot 2';
+// Act
+hr := fbSUT.Sort(aLoggedEvents:= aToSort);
+
+// Assert
+AssertEquals_DINT(Expected:= S_OK,
+					Actual:= hr,
+					Message:= 'Expected HRESULT=S_OK');
+AssertEquals_UDINT(Expected:= 3,
+					Actual:= aToSort[0].nUniqueId,
+					Message:= 'Expected nUniqueId = 3');
+AssertEquals_STRING(Expected:= 'Third received message was in slot 2',
+					Actual:= aToSort[0].sMessageText,
+					Message:= 'Expected second received message');						
+AssertEquals_UDINT(Expected:= 2,
+					Actual:= aToSort[1].nUniqueId,
+					Message:= 'Expected nUniqueId = 2');
+AssertEquals_STRING(Expected:= 'Second received message was in slot 1',
+					Actual:= aToSort[1].sMessageText,
+					Message:= 'Expected second received message');					
+AssertEquals_UDINT(Expected:= 1,
+					Actual:= aToSort[2].nUniqueId,
+					Message:= 'Expected nUniqueId = 1');
+AssertEquals_STRING(Expected:= 'First received message was in slot 0',
+					Actual:= aToSort[2].sMessageText,
+					Message:= 'Expected first received message');				
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ShouldSortTwoEventsInDescendingOrderSuccessfully" Id="{e46a498a-697e-4bed-bf96-22465da6d3e1}">
+      <Declaration><![CDATA[METHOD PRIVATE ShouldSortTwoEventsInDescendingOrderSuccessfully
+VAR_INPUT
+END_VAR
+VAR_INST
+	fbSUT	: FB_LoggedEventsSortDescending;
+	aToSort : T_LoggedEvents;
+	hr		: HRESULT;	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Should sort 2 Items in descending order (newest first)');
+// Arrange
+aToSort[0].nUniqueId 	:= 1;
+aToSort[0].sMessageText := 'First received message was in slot 0';
+aToSort[1].nUniqueId 	:= 2;
+aToSort[1].sMessageText := 'Second received message was in slot 1';
+
+// Act
+hr := fbSUT.Sort(aLoggedEvents:= aToSort);
+
+// Assert
+AssertEquals_DINT(Expected:= S_OK,
+					Actual:= hr,
+					Message:= 'Expected HRESULT=S_OK');
+AssertEquals_UDINT(Expected:= 2,
+					Actual:= aToSort[0].nUniqueId,
+					Message:= 'Expected nUniqueId = 2');
+AssertEquals_STRING(Expected:= 'Second received message was in slot 1',
+					Actual:= aToSort[0].sMessageText,
+					Message:= 'Expected second received message');					
+AssertEquals_UDINT(Expected:= 1,
+					Actual:= aToSort[1].nUniqueId,
+					Message:= 'Expected nUniqueId = 1');
+AssertEquals_STRING(Expected:= 'First received message was in slot 0',
+					Actual:= aToSort[1].sMessageText,
+					Message:= 'Expected first received message');				
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ShouldSortXEventsInDescendingOrderSuccessfully" Id="{4f3df0c7-7e4f-4a8a-98f3-6c018ef86884}">
+      <Declaration><![CDATA[METHOD PRIVATE ShouldSortXEventsInDescendingOrderSuccessfully
+VAR_INPUT
+END_VAR
+VAR_INST
+	fbSUT	: FB_LoggedEventsSortDescending;
+	aToSort : T_LoggedEvents;
+	hr		: HRESULT;
+	
+	i,j 	: UDINT;
+	fbFrmt 	: FB_FormatString2;	
+	sFrmt 	: STRING := '%d. received message was in slot %d';
+	sMsgTxt	: T_MaxString;
+END_VAR
+VAR CONSTANT
+	cUpperBound : UDINT := Param_EventLoggerListener.cMaxConcurrentEvents - 1;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Should sort X Items in descending order (newest first)');
+// Arrange
+
+FOR i:= 0 TO cUpperBound DO
+	j := i + 1;
+	fbFrmt(
+		pFormatString:= ADR(sFrmt), 
+		arg1:= F_UDINT(j),
+		arg2:= F_UDINT(i), 
+		pDstString:= ADR(sMsgTxt), 
+		nDstSize:= SIZEOF(sMsgTxt) - 1);
+	aToSort[i].nUniqueId 	:= i + 1;
+	aToSort[i].sMessageText := sMsgTxt;
+END_FOR
+
+// Act
+hr := fbSUT.Sort(aLoggedEvents:= aToSort);
+
+// Assert
+AssertEquals_DINT(Expected:= S_OK,
+					Actual:= hr,
+					Message:= 'Expected HRESULT=S_OK');
+					
+sFrmt := 'Expected nUniqueId = %d';
+FOR i:= 0 TO cUpperBound DO
+	j:=cUpperBound - i + 1;
+	fbFrmt(
+		pFormatString:= ADR(sFrmt), 
+		arg1:= F_UDINT(j), 
+		pDstString:= ADR(sMsgTxt), 
+		nDstSize:= SIZEOF(sMsgTxt) - 1);
+
+	AssertEquals_UDINT(Expected:= cUpperBound - i + 1,
+					Actual:= aToSort[i].nUniqueId,
+					Message:= sMsgTxt);
+END_FOR
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_LoggedEventsSortDescending_Tests">
+      <LineId Id="11" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="58" Count="1" />
+      <LineId Id="19" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggedEventsSortDescending_Tests.ShouldDoNothingIfOnlyOneEvent">
+      <LineId Id="11" Count="3" />
+      <LineId Id="17" Count="7" />
+      <LineId Id="30" Count="6" />
+      <LineId Id="52" Count="4" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggedEventsSortDescending_Tests.ShouldDoNothingWhenEmpty">
+      <LineId Id="11" Count="1" />
+      <LineId Id="17" Count="7" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggedEventsSortDescending_Tests.ShouldSortFiveEventsInDescendingOrderSuccessfully">
+      <LineId Id="11" Count="5" />
+      <LineId Id="44" Count="2" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="18" Count="6" />
+      <LineId Id="77" Count="4" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="53" Count="1" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggedEventsSortDescending_Tests.ShouldSortFourEventsInDescendingOrderSuccessfully">
+      <LineId Id="11" Count="5" />
+      <LineId Id="44" Count="2" />
+      <LineId Id="17" Count="10" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="53" Count="1" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggedEventsSortDescending_Tests.ShouldSortThreeEventsInDescendingOrderSuccessfully">
+      <LineId Id="11" Count="5" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="17" Count="7" />
+      <LineId Id="53" Count="4" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="25" Count="11" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggedEventsSortDescending_Tests.ShouldSortTwoEventsInDescendingOrderSuccessfully">
+      <LineId Id="11" Count="25" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggedEventsSortDescending_Tests.ShouldSortXEventsInDescendingOrderSuccessfully">
+      <LineId Id="11" Count="1" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="94" Count="2" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="106" Count="1" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="18" Count="6" />
+      <LineId Id="128" Count="1" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="124" Count="3" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="118" Count="1" />
+      <LineId Id="116" Count="1" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

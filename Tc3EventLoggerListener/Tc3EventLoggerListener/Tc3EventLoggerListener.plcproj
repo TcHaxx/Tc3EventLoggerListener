@@ -30,16 +30,16 @@
       <Id xmlns="">{9c7e50a7-dead-beef-897b-4cdbc169222d}</Id>
     </SelectedLibraryCategories>
     <Title>Tc3EventLoggerListener</Title>
-    <ProjectVersion>0.0.0.0</ProjectVersion>
+    <ProjectVersion>0.0.1.0</ProjectVersion>
     <DefaultNamespace>TcHaxx</DefaultNamespace>
     <Author>densogiaichned</Author>
     <Description>Example how to use TC3 EventLogger</Description>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\E_LanguageId.TcTLEO">
+    <Compile Include="DUTs\E_EventLoggerListenerState.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\E_EventSorting.TcTLEO">
+    <Compile Include="DUTs\E_LanguageId.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\ST_LoggedEvent.TcDUT">
@@ -58,19 +58,39 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="ITFs\I_LoggedEventsSort.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PlcTaskUnitTest.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_EventLoggerListenerImpl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FB_LoggedEventsSortAscending.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_LoggedEventsSortDescending.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TESTs\FB_LoggedEventsSortDescending_Tests.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TESTs\PRG_UnitTests.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
+    <Folder Include="ITFs" />
+    <Folder Include="TESTs" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
@@ -85,6 +105,7 @@
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Utilities">
       <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_EventLogger">
       <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -104,11 +125,6 @@
     <None Include="Tc3EventLoggerListener.tmc">
       <SubType>Content</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <SubObject Include="FB_EventLoggerListenerImpl.EmplaceFront">
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </SubObject>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

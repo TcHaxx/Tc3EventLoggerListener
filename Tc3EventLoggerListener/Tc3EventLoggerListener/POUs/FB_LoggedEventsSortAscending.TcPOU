@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_LoggedEventsSortAscending" Id="{e5abad23-e6bf-4bcc-b380-454d6be765af}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'do not call this POU directly'}
+FUNCTION_BLOCK FINAL FB_LoggedEventsSortAscending IMPLEMENTS I_LoggedEventsSort
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Sort" Id="{391850cf-d80f-4dd7-a0d1-6bff01aa081d}">
+      <Declaration><![CDATA[METHOD Sort : HRESULT
+VAR_IN_OUT
+	aLoggedEvents	: T_LoggedEvents;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[{warning 'TODO: Implement sorting in ascending order'}
+Sort := S_OK;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_LoggedEventsSortAscending">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_LoggedEventsSortAscending.Sort">
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

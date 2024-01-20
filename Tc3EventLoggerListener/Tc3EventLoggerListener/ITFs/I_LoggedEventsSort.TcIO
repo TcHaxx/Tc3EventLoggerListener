@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_LoggedEventsSort" Id="{87711ce4-569b-402b-a71b-c008fb0eaeaf}">
+    <Declaration><![CDATA[INTERFACE I_LoggedEventsSort
+]]></Declaration>
+    <Method Name="Sort" Id="{b4fe590f-a95d-4ee0-b977-a958029d9023}">
+      <Declaration><![CDATA[METHOD Sort : HRESULT
+VAR_IN_OUT
+	aLoggedEvents : T_LoggedEvents;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -3,16 +3,19 @@
   <POU Name="MAIN" Id="{b456ed00-d5bf-423c-93f9-9669130ca655}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fbEventLoggerListener : FB_EventLoggerListenerImpl;
-	aLoggedEvents : T_LoggedEvents;
+	fbEventLoggerListener 	: FB_EventLoggerListenerImpl;
+	aLoggedEvents 			: T_LoggedEvents;
+	
+	fbSortAscending			: FB_LoggedEventsSortAscending;
+	fbSortDescending		: FB_LoggedEventsSortDescending;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-fbEventLoggerListener(aLoggedEvents:= aLoggedEvents);]]></ST>
+fbEventLoggerListener(aLoggedEvents:= aLoggedEvents, ipSort:= fbSortDescending);]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="8" Count="0" />
+      <LineId Id="26" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
