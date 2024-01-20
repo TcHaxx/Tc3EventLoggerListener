@@ -5,12 +5,14 @@
 VAR_INPUT
 	bListen				: BOOL;
 	eLanguageId			: E_LanguageId := E_LanguageId.en_US;
+	eEventSorting		: E_EventSorting := E_EventSorting.Ascending;
 END_VAR
 VAR_IN_OUT
-	aLoggedEventsBuffer : ARRAY[*] OF ST_LoggedEvent;
+	aLoggedEvents :T_LoggedEvents;
 END_VAR
 VAR_OUTPUT
 	bBusy				: BOOL;
+	bDone				: BOOL;
 	bError				: BOOL;
 	nErrorCode			: DINT;
 END_VAR
@@ -19,23 +21,27 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
+
 VAR
-	eEventState 		: (INIT:= -10, IDLE := 0, LISTEN:= 1, GETTEXT_INIT := 10, GETTEXT_BUSY := 11, GETTEXT_DONE := 12, DONE := 20, ERROR := 999) := INIT;
+	fbDefaultFilter 	: FB_TcEventFilter;
+	pEventToProcess		: POINTER TO ST_LoggedEvent := NULL;
+	aRequestEventTexts 	: T_RequestEventTexts;
+
+END_VAR
+
+VAR
+	eEventState 		: (INIT:= -10, IDLE := 0, LISTEN:= 1, GETTEXT:= 10, DONE := 20, ERROR := 999) := INIT;
 	hr 					: HRESULT;
 END_VAR
 
-
-VAR
-	fbDefaultFilter 	:	FB_TcEventFilter;
-	fbRequestEventText 	: FB_RequestEventText;
-	fbRequestEventClassName : FB_RequestEventClassName;
-	pEventToProcess	: POINTER TO ST_LoggedEvent := NULL;
+VAR CONSTANT
+	cUpperBound			: UDINT := Param_EventLoggerListener.cMaxConcurrentEvents - 1;
 END_VAR
+
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-CASE eEventState OF
+      <ST><![CDATA[CASE eEventState OF
 	INIT:
 		hr := Setup(ipEventFilter);
 		IF SUCCEEDED(hr) THEN
@@ -46,7 +52,7 @@ CASE eEventState OF
 
 	IDLE:
 		IF bListen THEN
-			ClearEventBuffer(aEventsBuffer:= aLoggedEventsBuffer);
+			ClearEventBuffer(aEventsBuffer:= aLoggedEvents, aReqEventTexts:= aRequestEventTexts);
 			eEventState := LISTEN;
 		END_IF
 	
@@ -54,37 +60,19 @@ CASE eEventState OF
 		hr := GetNextEvents();
 		IF FAILED(hr) THEN
 			eEventState := ERROR;
-		ELSIF HasReceivedEvents(aEventsBuffer:= aLoggedEventsBuffer) THEN
-			eEventState := GETTEXT_INIT;
-		END_IF
-
-	GETTEXT_INIT:
-		hr := GetTextInit(aLoggedEventsBuffer, pEventToProcess => pEventToProcess);
-		IF FAILED(hr) THEN
-			eEventState := ERROR;
-		ELSIF hr = S_FALSE THEN
-			eEventState := DONE;
-		ELSE
-			eEventState := GETTEXT_BUSY;
+		ELSIF HasReceivedEvents() THEN
+			eEventState := GETTEXT;
 		END_IF
 				
-	GETTEXT_BUSY:
-		hr := GetTextBusy();
+	GETTEXT:
+		hr := GetEventTexts(aReqEventTexts:= aRequestEventTexts, aLoggedEvents:= aLoggedEvents);
 		IF FAILED(hr) THEN
 			eEventState := ERROR;
 		ELSIF SUCCEEDED(hr) THEN
-			eEventState := GETTEXT_DONE;
+			eEventState := DONE;
 		ELSE
 			{warning 'TODO: Timeout ?!'}
 			; // busy 
-		END_IF
-
-	GETTEXT_DONE:
-		hr := GetTextDone(pEventToProcess);
-		IF FAILED(hr) THEN
-			eEventState := ERROR;
-		ELSE
-			eEventState := GETTEXT_INIT;
 		END_IF
 	
 	DONE:
@@ -97,59 +85,110 @@ CASE eEventState OF
 END_CASE
 
 bError 	:= eEventState = ERROR; 
-bBusy 	:= bListen AND NOT bError AND NOT (eEventState = DONE); ]]></ST>
+bBusy 	:= bListen AND NOT bError AND NOT (eEventState = DONE); 
+bDone	:= eEventState = DONE;]]></ST>
     </Implementation>
     <Folder Name="base" Id="{b78c4325-52a7-457e-ba92-82a8db5fa6d5}" />
     <Folder Name="fsm" Id="{3612684c-59de-487e-99d5-0385d74affaa}" />
     <Method Name="ClearEventBuffer" Id="{3ca3ad94-55d7-4681-8230-cc9824631119}">
       <Declaration><![CDATA[METHOD PRIVATE ClearEventBuffer
 VAR_IN_OUT
-	aEventsBuffer : ARRAY[*] OF ST_LoggedEvent;
+	aEventsBuffer 	: T_LoggedEvents;
+	aReqEventTexts 	: T_RequestEventTexts;
 END_VAR
 VAR
-	i : DINT;
+	i : UDINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[
-FOR i := LOWER_BOUND(aEventsBuffer, 1) TO UPPER_BOUND(aEventsBuffer, 1) DO
-	MEMSET(ADR(aEventsBuffer[i]), 16#0, SIZEOF(ST_LoggedEvent));
+        <ST><![CDATA[FOR i := 0 TO cUpperBound DO 	
+	MEMSET(destAddr:= ADR(aEventsBuffer[i]), 16#0, SIZEOF(aEventsBuffer[i]));
+	aReqEventTexts[i].bAssigned := FALSE;
+	aReqEventTexts[i].bReqEventText := FALSE;
+	aReqEventTexts[i].bReqClassName := FALSE;
+	aReqEventTexts[i].nIndex := 0;
 END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="EmplaceFront" Id="{7ce40d7c-1372-4898-b064-2dccefdefb0c}">
       <Declaration><![CDATA[METHOD PRIVATE EmplaceFront : HRESULT
 VAR_IN_OUT CONSTANT
-	stLoggedEvent : ST_LoggedEvent;
+	stLoggedEvent : T_LoggedEvents;
 END_VAR
 VAR
 	refFirstItem : REFERENCE TO ST_LoggedEvent;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ShiftEventBuffer(aEventsBuffer:= THIS^.aLoggedEventsBuffer);
+        <ST><![CDATA[ShiftEventBuffer(aEventsBuffer:= THIS^.aLoggedEvents);
 
-refFirstItem REF= THIS^.aLoggedEventsBuffer[LOWER_BOUND(THIS^.aLoggedEventsBuffer, 1)];
+refFirstItem REF= THIS^.aLoggedEvents[0];
 
 refFirstItem := stLoggedEvent;
 
 EmplaceFront := S_OK;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FindNextEventToRetrieveText" Id="{3778f499-eaf4-4bda-9ecc-097fe46526bc}">
-      <Declaration><![CDATA[METHOD PRIVATE FindNextEventToRetrieveText : POINTER TO ST_LoggedEvent
-VAR_IN_OUT CONSTANT
-	aEventsBuffer : ARRAY[*] OF ST_LoggedEvent;
+    <Method Name="GetEventTexts" Id="{1818870c-187d-4319-95ec-259c65c17dfa}" FolderPath="fsm\">
+      <Declaration><![CDATA[METHOD PRIVATE GetEventTexts : HRESULT
+VAR_IN_OUT
+	aLoggedEvents  : T_LoggedEvents;
+	aReqEventTexts : T_RequestEventTexts;
 END_VAR
 VAR
-	i : DINT;
+	i				: UDINT;
+	hr				: HRESULT;
+	refReqEventText : REFERENCE TO ST_RequestEventTexts;
+	refLoggedEvent 	: REFERENCE TO ST_LoggedEvent;
+	
+	bEventDone, bClassNameDone : BOOL;
+	bEventError, bClassNameError : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-FOR i := LOWER_BOUND(aEventsBuffer, 1) TO UPPER_BOUND(aEventsBuffer, 1) DO
-	IF aEventsBuffer[i].nUniqueId > 0 AND aEventsBuffer[i].sMessageText = '' THEN
-		FindNextEventToRetrieveText := ADR(aEventsBuffer[i]);
-		RETURN;
+GetEventTexts := S_OK;
+
+FOR i := 0 TO cUpperBound DO
+	
+	refReqEventText REF= aReqEventTexts[i];	
+	IF NOT refReqEventText.bAssigned THEN
+		CONTINUE;
 	END_IF
-END_FOR]]></ST>
+	
+	refLoggedEvent 	REF= aLoggedEvents[refReqEventText.nIndex];
+	
+	bEventDone 		:= refReqEventText.bAssigned AND (NOT refReqEventText.fbEventText.bBusy AND NOT refReqEventText.fbEventText.bError);
+	bClassNameDone 	:= refReqEventText.bAssigned AND (NOT refReqEventText.fbEventClassName.bBusy AND NOT refReqEventText.fbEventClassName.bError);
+	
+	IF bEventDone AND refReqEventText.bReqEventText THEN
+		refReqEventText.fbEventText.GetString(refLoggedEvent.sMessageText, SIZEOF(refLoggedEvent.sMessageText) - 1);
+		refReqEventText.bReqEventText := FALSE;		
+	END_IF
+	
+	IF bClassNameDone AND refReqEventText.bReqClassName THEN
+		refReqEventText.fbEventClassName.GetString(refLoggedEvent.sEventClassName, SIZEOF(refLoggedEvent.sEventClassName) - 1);
+		refReqEventText.bReqClassName := FALSE;
+	END_IF
+	
+	bEventError		:= refReqEventText.bAssigned AND refReqEventText.bReqEventText AND refReqEventText.fbEventText.bError;
+	bClassNameError	:= refReqEventText.bAssigned AND refReqEventText.bReqClassName AND refReqEventText.fbEventClassName.bError;
+	
+	IF bEventError THEN
+		hr := refReqEventText.fbEventText.hrErrorCode;
+		refLoggedEvent.sMessageText := RequestEventTextsError(sFrmt:= 'Couldn$'t get EventText: hr=0x%08X', F_DINT(hr));	
+		refReqEventText.bReqEventText := FALSE;	
+	END_IF
+	
+	IF bClassNameError THEN
+		hr := refReqEventText.fbEventClassName.hrErrorCode;
+		refLoggedEvent.sEventClassName := RequestEventTextsError(sFrmt:= 'Couldn$'t get ClassName: hr=0x%08X', F_DINT(hr));	
+		refReqEventText.bReqClassName := FALSE;
+	END_IF
+	
+	IF refReqEventText.bAssigned AND (refReqEventText.bReqEventText OR_ELSE refReqEventText.bReqClassName) THEN
+		GetEventTexts := S_PENDING;
+	END_IF
+	
+END_FOR
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNextEvents" Id="{3c7f655d-2c73-41dc-b085-26c5a3b1cef1}" FolderPath="fsm\">
@@ -161,91 +200,16 @@ END_VAR
         <ST><![CDATA[GetNextEvents := SUPER^.Execute();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetTextBusy" Id="{1818870c-187d-4319-95ec-259c65c17dfa}" FolderPath="fsm\">
-      <Declaration><![CDATA[METHOD PRIVATE GetTextBusy : HRESULT
-VAR
-	bBusy  : BOOL;
-	bError : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[
-
-bBusy := fbRequestEventText.bBusy OR fbRequestEventClassName.bBusy;
-bError := fbRequestEventText.bError OR fbRequestEventClassName.bError;
-
-IF bBusy AND NOT bError THEN
-	GetTextBusy := S_PENDING;
-ELSIF bError THEN
-	GetTextBusy := E_FAIL;
-ELSE
-	GetTextBusy := S_OK;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="GetTextDone" Id="{8e56741d-2075-4a2d-8c21-12c4e4aca18b}" FolderPath="fsm\">
-      <Declaration><![CDATA[METHOD PRIVATE GetTextDone : HRESULT
-VAR_INPUT
-	pEventToProcess	: POINTER TO ST_LoggedEvent;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF pEventToProcess = NULL THEN
-	GetTextDone := E_FAIL;
-	RETURN;
-END_IF
-
-fbRequestEventText.GetString(sResult:= pEventToProcess^.sMessageText, nResult:= SIZEOF(pEventToProcess^.sMessageText));
-fbRequestEventClassName.GetString(sResult:= pEventToProcess^.sEventClassName, nResult:= SIZEOF(pEventToProcess^.sEventClassName));
-
-GetTextDone := S_OK;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="GetTextInit" Id="{4920d45a-e756-4b29-bc9b-07b389dfee79}" FolderPath="fsm\">
-      <Declaration><![CDATA[METHOD PRIVATE GetTextInit : HRESULT
-VAR_IN_OUT CONSTANT
-	aEventsBuffer 	: ARRAY[*] OF ST_LoggedEvent;
-END_VAR
-
-VAR_OUTPUT
-	pEventToProcess	: POINTER TO ST_LoggedEvent := NULL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbRequestEventText.Clear();
-fbRequestEventClassName.Clear();
-
-pEventToProcess := FindNextEventToRetrieveText(aEventsBuffer);
-
-IF pEventToProcess = NULL THEN
-	GetTextInit := S_FALSE;
-	RETURN;
-END_IF
-
-GetTextInit := fbRequestEventText.Request(eventClass:=pEventToProcess^.EventClass, nEventId:=pEventToProcess^.nEventId, nLangId:=TO_DINT(eLanguageId), ipArgs:=pEventToProcess^.ipArguments );
-IF FAILED(GetTextInit) THEN
-	RETURN;
-END_IF
-
-GetTextInit := fbRequestEventClassName.Request(eventClass:= pEventToProcess^.EventClass, nLangId:=TO_DINT(eLanguageId));
-IF FAILED(GetTextInit) THEN
-	RETURN;
-END_IF
-
-GetTextInit := S_OK;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="HasReceivedEvents" Id="{8cbbbb47-3fab-484f-ab01-e95893daf735}" FolderPath="fsm\">
       <Declaration><![CDATA[METHOD PRIVATE HasReceivedEvents : BOOL
-VAR_IN_OUT CONSTANT
-	aEventsBuffer : ARRAY[*] OF ST_LoggedEvent;
-END_VAR
 VAR
-	i : DINT;
-	emptyEventClass : GUID;
+	i : UDINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := LOWER_BOUND(aEventsBuffer, 1) TO UPPER_BOUND(aEventsBuffer, 1) DO
-	IF aEventsBuffer[i].nUniqueID > 0 OR aEventsBuffer[i].nSourceId > 0 OR aEventsBuffer[i].nTimestampRaised > 0 THEN 
+        <ST><![CDATA[FOR i := 0 TO cUpperBound DO
+	IF THIS^.aRequestEventTexts[i].bAssigned THEN 
 		HasReceivedEvents := TRUE;
-		EXIT;
+		RETURN;
 	END_IF
 END_FOR]]></ST>
       </Implementation>
@@ -262,15 +226,9 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stLoggedEvent := To_StLoggedEvent(fbEvent);
 stLoggedEvent.nTimestampRaised := 0;
-stLoggedEvent.nTimeStampCleared := fbEvent.nTimestamp;
-EmplaceFront(stLoggedEvent);
+stLoggedEvent.nTimestampCleared := fbEvent.nTimestamp;
 
-IF UPPER_BOUND(THIS^.aLoggedEventsBuffer, 1) > 1 THEN
-	OnAlarmCleared := S_OK; // in order to receive more callbacks (Set <> S_OK in order to cancel the callbacks for this program cycle.)
-ELSE
-	OnAlarmCleared := S_FALSE;	// Only one event at a time, hence next call to SUPER^.Execute().
-END_IF
-]]></ST>
+OnAlarmCleared := StoreEvent(stLoggedEvent, fbEvent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnAlarmConfirmed" Id="{efe870ed-8bbd-4c42-9405-bf33d81f12d4}" FolderPath="base\">
@@ -280,20 +238,17 @@ VAR_INPUT
 END_VAR
 
 VAR
-	stLoggedEvent : ST_LoggedEvent;
+	stLoggedEvent 	: ST_LoggedEvent;
+	bNoMoreEvents 	: BOOL;
+	hr 				: HRESULT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stLoggedEvent := To_StLoggedEvent(fbEvent);
 stLoggedEvent.nTimestampRaised := 0;
 stLoggedEvent.nTimestampConfirmed := fbEvent.nTimestamp;
-EmplaceFront(stLoggedEvent);
 
-IF UPPER_BOUND(THIS^.aLoggedEventsBuffer, 1) > 1 THEN
-	OnAlarmConfirmed := S_OK; // in order to receive more callbacks (Set <> S_OK in order to cancel the callbacks for this program cycle.)
-ELSE
-	OnAlarmConfirmed := S_FALSE;	// Only one event at a time, hence next call to SUPER^.Execute().
-END_IF
-]]></ST>
+
+OnAlarmConfirmed := StoreEvent(stLoggedEvent, fbEvent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnAlarmRaised" Id="{1df5b803-888d-4d2d-ab12-93687f9c1a1e}" FolderPath="base\">
@@ -303,18 +258,17 @@ VAR_INPUT
 END_VAR
 
 VAR
-	stLoggedEvent : ST_LoggedEvent;
+	stLoggedEvent 	: ST_LoggedEvent;
+	bNoMoreEvents 	: BOOL;
+	refReqEventText : REFERENCE TO ST_RequestEventTexts;
+	nIndex 			: UDINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stLoggedEvent := To_StLoggedEvent(fbEvent);
-EmplaceFront(stLoggedEvent);
+stLoggedEvent.nTimestampRaised := 0;
+stLoggedEvent.nTimestampRaised := fbEvent.nTimestamp;
 
-IF UPPER_BOUND(THIS^.aLoggedEventsBuffer, 1) > 1 THEN
-	OnAlarmRaised := S_OK; // in order to receive more callbacks (Set <> S_OK in order to cancel the callbacks for this program cycle.)
-ELSE
-	OnAlarmRaised := S_FALSE;	// Only one event at a time, hence next call to SUPER^.Execute().
-END_IF
-]]></ST>
+OnAlarmRaised := StoreEvent(stLoggedEvent, fbEvent);]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnMessageSent" Id="{b4dac56d-cfe9-4434-ae5b-afa117054bdb}" FolderPath="base\">
@@ -324,17 +278,40 @@ VAR_INPUT
 END_VAR
 
 VAR
-	stLoggedEvent : ST_LoggedEvent;
+	stLoggedEvent 	: ST_LoggedEvent;
+	bNoMoreEvents 	: BOOL;
+	refReqEventText : REFERENCE TO ST_RequestEventTexts;
+	nIndex 			: UDINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[stLoggedEvent := To_StLoggedEvent(fbEvent);
-EmplaceFront(stLoggedEvent);
+OnMessageSent := StoreEvent(stLoggedEvent, fbEvent);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RequestEventTextsError" Id="{bcdd5814-b414-4459-bd5b-4bdee25082be}">
+      <Declaration><![CDATA[METHOD PRIVATE RequestEventTextsError : STRING(Param_EventLoggerListener.cMessageTextLength)
+VAR_IN_OUT CONSTANT
+	sFrmt : STRING;
+END_VAR
+VAR_INPUT
+	tArg  : T_ARG;	
+END_VAR
+VAR_INST
+	fbFrmt		: FB_FormatString2;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
 
-IF UPPER_BOUND(THIS^.aLoggedEventsBuffer, 1) > 1 THEN
-	OnMessageSent := S_OK; // in order to receive more callbacks (Set <> S_OK in order to cancel the callbacks for this program cycle.)
-ELSE
-	OnMessageSent := S_FALSE;	// Only one event at a time, hence next call to SUPER^.Execute().
-END_IF]]></ST>
+fbFrmt(
+	pFormatString:= ADR(sFrmt), 
+	arg1:= tArg,  
+	pDstString:= ADR(RequestEventTextsError), 
+	nDstSize:= SIZEOF(RequestEventTextsError) - 1, 
+	bError=> , 
+	nErrId=> );
+	
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Setup" Id="{60bc9ace-1b18-4a40-8fd4-b90018f4f294}" FolderPath="fsm\">
@@ -362,22 +339,61 @@ Setup := hr;]]></ST>
     <Method Name="ShiftEventBuffer" Id="{383c1100-f67d-4da6-b8b3-6a82091a9c96}">
       <Declaration><![CDATA[METHOD PRIVATE ShiftEventBuffer
 VAR_IN_OUT
-	aEventsBuffer : ARRAY[*] OF ST_LoggedEvent;
+	aEventsBuffer :T_LoggedEvents;
 END_VAR
 
 VAR
-	i : DINT;
+	i : UDINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-FOR i := UPPER_BOUND(aEventsBuffer, 1) TO LOWER_BOUND(aEventsBuffer, 1) + 1 BY -1 DO
+FOR i := cUpperBound TO 1 BY -1 DO
 	aEventsBuffer[i] := aEventsBuffer[i - 1];
 END_FOR]]></ST>
       </Implementation>
     </Method>
+    <Method Name="StoreEvent" Id="{c8a103a8-4178-44e8-b0db-04fccc2800ad}">
+      <Declaration><![CDATA[METHOD PRIVATE StoreEvent : HRESULT
+VAR_INPUT CONSTANT
+	stLoggedEvent 	: REFERENCE TO ST_LoggedEvent;
+	fbEvent			: REFERENCE TO FB_TcEvent;
+END_VAR
+
+VAR
+	i : UDINT;
+	refReqEventText : REFERENCE TO ST_RequestEventTexts;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FOR i := 0 TO cUpperBound  DO
+	IF NOT THIS^.aRequestEventTexts[i].bAssigned THEN
+		
+		THIS^.aLoggedEvents[i] := stLoggedEvent;
+		
+		refReqEventText REF= THIS^.aRequestEventTexts[i];
+		refReqEventText.nIndex := i;
+		refReqEventText.bAssigned := TRUE;
+		refReqEventText.fbEventText.Clear();
+		refReqEventText.fbEventText.Request(eventClass:= fbEvent.EventClass, nEventId:= fbEvent.nEventId, nLangId:= eLanguageId, ipArgs:= fbEvent.ipArguments);
+		refReqEventText.bReqEventText := TRUE;
+		refReqEventText.fbEventClassName.Clear();
+		refReqEventText.fbEventClassName.Request(eventClass:= fbEvent.EventClass, nLangId:= eLanguageId);
+		refReqEventText.bReqClassName := TRUE;
+
+		EXIT;
+	END_IF; 
+END_FOR
+
+IF THIS^.aRequestEventTexts[cUpperBound].bAssigned THEN
+	StoreEvent := S_PENDING;
+ELSE
+	StoreEVent := S_OK;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="To_StLoggedEvent" Id="{a73d74b9-a770-4992-8783-57031d3eccea}">
       <Declaration><![CDATA[METHOD PRIVATE To_StLoggedEvent : ST_LoggedEvent
-VAR_INPUT
+VAR_INPUT CONSTANT
 	fbEvent : REFERENCE TO FB_TcEvent;
 END_VAR]]></Declaration>
       <Implementation>
@@ -387,41 +403,22 @@ To_StLoggedEvent.eSeverity 			:= fbEvent.eSeverity;
 To_StLoggedEvent.EventClass 		:= fbEvent.EventClass;
 To_StLoggedEvent.nTimestampRaised	:= fbEvent.nTimestamp;
 To_StLoggedEvent.nUniqueId 			:= fbEvent.nUniqueId;
-To_StLoggedEvent.ipArguments		:= fbEvent.ipArguments;
- ]]></ST>
+fbEvent.GetJsonAttribute(To_StLoggedEvent.sJson, SIZEOF(To_StLoggedEvent.sJson) - 1);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_EventLoggerListenerImpl">
-      <LineId Id="203" Count="0" />
-      <LineId Id="152" Count="18" />
-      <LineId Id="172" Count="0" />
-      <LineId Id="265" Count="0" />
-      <LineId Id="174" Count="2" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="204" Count="1" />
-      <LineId Id="228" Count="1" />
-      <LineId Id="212" Count="1" />
-      <LineId Id="206" Count="0" />
-      <LineId Id="211" Count="0" />
-      <LineId Id="178" Count="0" />
-      <LineId Id="190" Count="0" />
-      <LineId Id="215" Count="4" />
-      <LineId Id="221" Count="0" />
-      <LineId Id="220" Count="0" />
-      <LineId Id="214" Count="0" />
-      <LineId Id="232" Count="0" />
-      <LineId Id="189" Count="0" />
-      <LineId Id="264" Count="0" />
-      <LineId Id="191" Count="0" />
-      <LineId Id="224" Count="2" />
-      <LineId Id="230" Count="1" />
-      <LineId Id="179" Count="9" />
+      <LineId Id="435" Count="32" />
+      <LineId Id="476" Count="10" />
       <LineId Id="100" Count="0" />
+      <LineId Id="488" Count="0" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.ClearEventBuffer">
-      <LineId Id="7" Count="0" />
       <LineId Id="17" Count="0" />
-      <LineId Id="25" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="61" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.EmplaceFront">
@@ -433,36 +430,49 @@ To_StLoggedEvent.ipArguments		:= fbEvent.ipArguments;
       <LineId Id="16" Count="0" />
       <LineId Id="15" Count="0" />
     </LineIds>
-    <LineIds Name="FB_EventLoggerListenerImpl.FindNextEventToRetrieveText">
-      <LineId Id="8" Count="2" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="5" Count="0" />
+    <LineIds Name="FB_EventLoggerListenerImpl.GetEventTexts">
+      <LineId Id="64" Count="1" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="149" Count="3" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="121" Count="1" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="142" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="143" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="134" Count="1" />
+      <LineId Id="132" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="50" Count="0" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.GetNextEvents">
       <LineId Id="6" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_EventLoggerListenerImpl.GetTextBusy">
-      <LineId Id="44" Count="0" />
-      <LineId Id="42" Count="1" />
-      <LineId Id="46" Count="3" />
-      <LineId Id="53" Count="1" />
-      <LineId Id="51" Count="1" />
-      <LineId Id="50" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_EventLoggerListenerImpl.GetTextDone">
-      <LineId Id="44" Count="0" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="60" Count="1" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="65" Count="1" />
-      <LineId Id="50" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_EventLoggerListenerImpl.GetTextInit">
-      <LineId Id="44" Count="19" />
-      <LineId Id="23" Count="0" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.HasReceivedEvents">
       <LineId Id="11" Count="0" />
@@ -473,38 +483,26 @@ To_StLoggedEvent.ipArguments		:= fbEvent.ipArguments;
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.OnAlarmCleared">
-      <LineId Id="26" Count="0" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="27" Count="4" />
-      <LineId Id="11" Count="0" />
+      <LineId Id="45" Count="3" />
       <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.OnAlarmConfirmed">
-      <LineId Id="23" Count="0" />
-      <LineId Id="33" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="28" Count="3" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="13" Count="0" />
+      <LineId Id="43" Count="5" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.OnAlarmRaised">
-      <LineId Id="88" Count="0" />
-      <LineId Id="82" Count="0" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="83" Count="4" />
+      <LineId Id="108" Count="2" />
+      <LineId Id="112" Count="0" />
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.OnMessageSent">
-      <LineId Id="104" Count="0" />
-      <LineId Id="82" Count="0" />
-      <LineId Id="95" Count="0" />
-      <LineId Id="94" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="96" Count="2" />
+      <LineId Id="179" Count="0" />
+      <LineId Id="199" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_EventLoggerListenerImpl.RequestEventTextsError">
+      <LineId Id="13" Count="4" />
+      <LineId Id="27" Count="2" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="33" Count="1" />
     </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.Setup">
       <LineId Id="10" Count="1" />
@@ -520,10 +518,28 @@ To_StLoggedEvent.ipArguments		:= fbEvent.ipArguments;
       <LineId Id="5" Count="0" />
       <LineId Id="26" Count="1" />
     </LineIds>
+    <LineIds Name="FB_EventLoggerListenerImpl.StoreEvent">
+      <LineId Id="12" Count="1" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="26" Count="5" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="39" Count="2" />
+    </LineIds>
     <LineIds Name="FB_EventLoggerListenerImpl.To_StLoggedEvent">
       <LineId Id="16" Count="5" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="22" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

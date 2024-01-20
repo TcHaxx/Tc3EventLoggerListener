@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_RequestEventTexts" Id="{8312ac05-f1df-490b-a601-ffb974094aae}">
+    <Declaration><![CDATA[TYPE ST_RequestEventTexts :
+STRUCT
+	fbEventText 		: FB_RequestEventText;
+	fbEventClassName 	: FB_RequestEventClassName;
+	bAssigned			: BOOL;
+	bReqEventText		: BOOL;
+	bReqClassName		: BOOL;
+	nIndex				: UDINT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

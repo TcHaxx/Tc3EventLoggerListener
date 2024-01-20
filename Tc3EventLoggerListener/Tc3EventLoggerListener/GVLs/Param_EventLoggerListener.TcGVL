@@ -6,6 +6,8 @@ VAR_GLOBAL CONSTANT
 	cEventClassNameLength : UDINT (80..255) := 80;
 	cMessageTextLength : UDINT(80..1024) := 255;
 	cSourceNameLength : UDINT (80..255) := 80;
+	cMaxConcurrentEvents : UDINT (1..64) := 16;
+	cMaxJsonTextLength : UDINT (80..16384) := 1024;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

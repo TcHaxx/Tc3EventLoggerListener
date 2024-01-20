@@ -14,7 +14,7 @@ STRUCT
 	nTimestampRaised 	: ULINT;	
 	nTimestampConfirmed	: ULINT;
 	nTimestampCleared 	: ULINT;
-	ipArguments			: I_TcArguments;
+	sJson				: STRING (Param_EventLoggerListener.cMaxJsonTextLength);
 END_STRUCT
 END_TYPE
 ]]></Declaration>

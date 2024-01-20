@@ -39,7 +39,19 @@
     <Compile Include="DUTs\E_LanguageId.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\E_EventSorting.TcTLEO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\ST_LoggedEvent.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_RequestEventTexts.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\T_LoggedEvents.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\T_RequestEventTexts.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GVLs\Param_EventLoggerListener.TcGVL">
@@ -92,6 +104,11 @@
     <None Include="Tc3EventLoggerListener.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SubObject Include="FB_EventLoggerListenerImpl.EmplaceFront">
+      <ExcludeFromBuild>true</ExcludeFromBuild>
+    </SubObject>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

@@ -2,15 +2,6 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53" TcProjectVariant="LIB">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{FFE66227-CA24-41B6-93F7-859EA4A3FC0A}" PersistentType="true">AnotherEventClass</Name>
-			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
-			<EventId>
-				<Name Id="1">NonSubscribedEvent</Name>
-				<DisplayName TxtId=""><![CDATA[A Event which will not be subscribed to.]]></DisplayName>
-				<Severity>Verbose</Severity>
-			</EventId>
-		</DataType>
-		<DataType>
 			<Name GUID="{B7A625D3-44A2-4DEB-8226-8837080C12C7}" PersistentType="true">PublisherEventClass</Name>
 			<DisplayName TxtId=""><![CDATA[PublisherEventClass]]></DisplayName>
 			<EventId>
@@ -28,23 +19,36 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{FF3860C6-5EC3-4BF5-BC0E-79D583ACECD3}" PersistentType="true">PublisherEventClass</Name>
+			<Name GUID="{3BB6FEA8-DA88-45B3-AB44-A1D9B8104767}" PersistentType="true">PublisherEventClass</Name>
 			<DisplayName TxtId=""><![CDATA[PublisherEventClass]]></DisplayName>
 			<Comment TxtId=""><![CDATA[dsfgdgh]]></Comment>
 			<EventId>
 				<Name Id="#x1">Message</Name>
-				<DisplayName TxtId=""><![CDATA[Message]]></DisplayName>
+				<DisplayName TxtId=""><![CDATA[Message {0}]]></DisplayName>
 				<Severity>Warning</Severity>
 			</EventId>
 			<EventId>
 				<Name Id="2">Alarm</Name>
-				<DisplayName TxtId=""><![CDATA[Alarm]]></DisplayName>
+				<DisplayName TxtId=""><![CDATA[Alarm {0}]]></DisplayName>
 				<Severity>Critical</Severity>
 			</EventId>
 			<Hides>
 				<Hide GUID="{3E9B2A7D-E1CC-4D59-92B2-07AF07074230}"/>
 				<Hide GUID="{B7A625D3-44A2-4DEB-8226-8837080C12C7}"/>
 				<Hide GUID="{2D8A9C96-9ED4-4028-8823-2B41D30BE677}"/>
+				<Hide GUID="{FF3860C6-5EC3-4BF5-BC0E-79D583ACECD3}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{500C465F-F067-4C8D-BFC5-35219D2CB8AB}" PersistentType="true">AnotherEventClass</Name>
+			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
+			<EventId>
+				<Name Id="1">NonSubscribedEvent</Name>
+				<DisplayName TxtId=""><![CDATA[A Event which will not be subscribed to. {0}]]></DisplayName>
+				<Severity>Verbose</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{FFE66227-CA24-41B6-93F7-859EA4A3FC0A}"/>
 			</Hides>
 		</DataType>
 	</DataTypes>
@@ -89,7 +93,7 @@
 						<Defines/>
 					</Variant>
 				</ProjectVariant>
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3EventLoggerListener\Tc3EventLoggerListener.tmc" TmcHash="{4E8CF14D-ECA6-ABFD-242E-4F5B2B05241D}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Tc3EventLoggerListener\Tc3EventLoggerListener.tmc" TmcHash="{9E1B891B-7627-EC40-FCB3-7989BEA16B4B}">
 					<Name>Tc3EventLoggerListener Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
@@ -105,6 +109,26 @@
 					</Contexts>
 					<TaskPouOids>
 						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+			<Project GUID="{94AEA898-7881-4CAE-92F3-42E01F218C51}" Name="Publisher" PrjFilePath="C:\Users\TAxmann\Downloads\Tc3EventLogger_ListenerSample\Publisher\Publisher.plcproj" TmcFilePath="C:\Users\TAxmann\Downloads\Tc3EventLogger_ListenerSample\Publisher\Publisher.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="C:\Users\TAxmann\Downloads\Tc3EventLogger_ListenerSample\Publisher\Publisher.tmc" TmcHash="{9F895F82-7F5B-4260-2A10-9344E57DC014}">
+					<Name>Publisher Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PublisherTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502041"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>
